@@ -11,36 +11,31 @@
         html, body {
             background: transparent !important;
             width: 100%;
-            height: 100%;
+            height: 100vh;
             overflow: hidden;
-            display: flex;
-            align-items: center;
-            justify-content: center;
         }
 
-        #timer-wrapper {
-            width: 100%;
-            background: transparent;
-            font-family: 'Orbitron', sans-serif;
-            color: white;
+        body {
             display: flex;
-            flex-direction: column;
             align-items: center;
             justify-content: center;
-            padding: 0 4vw;
         }
 
         #countdown {
+            font-family: 'Orbitron', sans-serif;
             font-size: clamp(2rem, 8vw, 8rem);
             font-weight: 900;
             letter-spacing: 0.3vw;
             text-align: center;
             text-shadow: 0 0 4px rgba(255,255,255,0.8);
             white-space: nowrap;
+            color: white;
         }
 
         #timezone {
+            font-family: 'Orbitron', sans-serif;
             font-size: clamp(0.65rem, 1.5vw, 0.9rem);
+            color: white;
             opacity: 0.55;
             text-align: center;
             margin-top: 12px;
@@ -48,36 +43,29 @@
     </style>
 </head>
 <body>
-    <div id="timer-wrapper">
+    <div>
         <div id="countdown">Loading...</div>
         <div id="timezone"></div>
     </div>
     <script>
-        const userTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-        document.getElementById("timezone").innerHTML = "Time Zone: " + userTimeZone;
+        document.getElementById("timezone").textContent =
+            "Time Zone: " + Intl.DateTimeFormat().resolvedOptions().timeZone;
 
         const targetDate = new Date(2026, 5, 13, 0, 0, 0).getTime();
 
         function updateCountdown() {
-            const now = new Date().getTime();
-            const distance = targetDate - now;
-
+            const distance = targetDate - Date.now();
             if (distance <= 0) {
-                document.getElementById("countdown").innerHTML = "000:00:00:00";
+                document.getElementById("countdown").textContent = "000:00:00:00";
                 clearInterval(timerInterval);
                 return;
             }
-
-            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-
-            document.getElementById("countdown").innerHTML =
-                `${days.toString().padStart(3,'0')}:` +
-                `${hours.toString().padStart(2,'0')}:` +
-                `${minutes.toString().padStart(2,'0')}:` +
-                `${seconds.toString().padStart(2,'0')}`;
+            const d = Math.floor(distance / 86400000);
+            const h = Math.floor((distance % 86400000) / 3600000);
+            const m = Math.floor((distance % 3600000) / 60000);
+            const s = Math.floor((distance % 60000) / 1000);
+            document.getElementById("countdown").textContent =
+                `${String(d).padStart(3,'0')}:${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
         }
 
         const timerInterval = setInterval(updateCountdown, 1000);
