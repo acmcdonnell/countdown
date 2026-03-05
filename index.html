@@ -22,8 +22,7 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            /* Nudge up to compensate for Squarespace nav bar */
-            padding-bottom: 10vh;
+            padding-bottom: 13vh;
         }
 
         #countdown {
@@ -44,6 +43,13 @@
             opacity: 0.55;
             text-align: center;
             margin-top: 12px;
+        }
+
+        /* Ultrawide fix: clamp already caps font, just ensure centering holds */
+        @media (min-width: 2000px) {
+            #timer-wrapper {
+                padding-bottom: 8vh;
+            }
         }
     </style>
 </head>
