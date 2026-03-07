@@ -45,6 +45,13 @@
             margin-top: 12px;
         }
 
+        /* Mobile: larger text */
+        @media (max-width: 768px) {
+            #countdown {
+                font-size: clamp(2.5rem, 10vw, 4rem);
+            }
+        }
+
         /* Ultrawide fix: clamp already caps font, just ensure centering holds */
         @media (min-width: 2000px) {
             #timer-wrapper {
